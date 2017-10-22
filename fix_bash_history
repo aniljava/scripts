@@ -1,0 +1,25 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import os
+import sys
+
+def main():
+    path = os.path.join(os.environ['HOME'], '.bash_history')
+    lines = [l.strip() for l in open(path)]
+    lines.reverse()
+
+    uniques = {}
+    result = []
+    
+    for line in lines:
+    	if line in uniques:
+    		continue
+    	result.append(line)
+    	uniques[line] = 0
+    result.reverse()
+    with open(path, 'w') as f:
+        f.write('\n'.join(result))
+        f.write('\n')
+    
+main()

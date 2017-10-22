@@ -1,0 +1,46 @@
+#!/usr/bin/env python2
+
+import os
+import sys
+import stat
+import commands
+import stat
+
+
+
+template = '''#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import os
+import sys
+
+def main():
+    pass
+
+
+
+main()
+'''
+
+
+def main():
+    path = ' '.join(sys.argv[1:])
+    path = path.replace(' ', '-')
+    createTemplate(path)
+
+
+def createTemplate(path):
+    if(os.path.exists(path)):
+        print '{} exists, doing nothing.'.format(path)
+        commands.getstatusoutput('sublime_text {}'.format(path))
+        return
+    file = open(path, 'w')
+    file.write(template)
+    file.close()
+
+    st = os.stat(path)
+    os.chmod(path, st.st_mode | stat.S_IEXEC)
+    print 'DONE'
+    #commands.getstatusoutput('sublime_text {}'.format(path))
+
+main()

@@ -1,0 +1,23 @@
+#!/usr/bin/env python
+
+import os
+import commands
+import time
+
+CONFIG = '/ws/linux/config/last-dir'
+timestamp = str(time.time())
+
+def main():
+    path = '/tmp/clip.{}'.format(timestamp)
+    with open(path, 'w') as f:
+        f.write(get_clip())
+    commands.getstatusoutput('chmod +x {}'.format(path))
+    print commands.getstatusoutput(path)[1]
+    os.remove(path)
+        
+
+
+def get_clip():
+    _, clipboard = commands.getstatusoutput('xclip -o -selection clipboard')
+    return clipboard
+main()

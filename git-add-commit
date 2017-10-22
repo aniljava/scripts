@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Aliased as gas in .bashrc
+# alias gas git-add-commit 
+
+git add $1
+shift
+quoted_args="$(printf " %q" "$@")"
+git commit -m "$quoted_args"
+git push -u origin master

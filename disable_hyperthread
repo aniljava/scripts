@@ -1,0 +1,22 @@
+#!/usr/bin/env python
+import subprocess
+
+
+def main():
+    cores = {}
+
+    lscpu = subprocess.Popen(["lscpu", '-e'], stdout=subprocess.PIPE)        
+    output = lscpu.communicate()[0].strip()
+    for line in output.split('\n')[1:]:
+        info = line.split()
+        core_id, node, socket, core = info[0:4]
+        
+        composition = node + ':' +  socket + ':' + core
+        if composition in cores:
+            print 'DISABLING [{}] : core [{}] already used by [{}]'.format(core_id, composition,  cores.get(composition))
+            path = '/sys/devices/system/cpu/cpu{}/online'.format(core_id)
+            with open(path, 'w') as f:
+                f.write('0')
+        cores[composition] = core_id 
+
+main()

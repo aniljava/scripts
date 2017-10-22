@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+FILE=`which "$@"`
+/ws/linux/bin//sublime_text $FILE

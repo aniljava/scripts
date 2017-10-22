@@ -1,0 +1,36 @@
+#!/usr/bin/env python2
+def main(text):
+    lines = [l for l in text.split('\n') if l.strip() != '']
+    for line in lines:
+        number_only = tonum(line)
+        try:
+        	_ = float(number_only)
+        	print number_only
+        except:
+        	print ''
+
+
+
+def tonum(text, delim='-'):
+    valid = '0123456789.'
+    result = []
+    for c in text.lower():
+        if c in valid:
+            result.append(c)
+    result = ''.join(result)
+
+    return result
+
+
+def getClipboard():
+    import commands
+    try:
+        _, clipboard = commands.getstatusoutput('xclip -o -selection clipboard')
+        return clipboard
+    except Exception as ex:
+        pass
+#         log.notify('EXCEPTION OCCURED', fx)
+
+
+text = getClipboard()
+main(text)

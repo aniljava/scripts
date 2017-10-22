@@ -1,0 +1,25 @@
+#!/usr/bin/env python2
+
+import os, sys, stat
+
+template = '''#!/usr/bin/env bash
+
+
+'''
+
+def main():
+	path = ' '.join(sys.argv[1:])
+	path = path.replace(' ','-')
+	createTemplate(path)
+
+def createTemplate(path):
+	if(os.path.exists(path)):
+		print '{} exists, doing nothing.'.format(path)
+		return
+	file = open(path,'w')
+	file.write(template)
+	file.close()
+
+	os.chmod(path,755)
+
+main()

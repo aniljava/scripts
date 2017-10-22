@@ -1,0 +1,47 @@
+#!/usr/bin/env python2
+
+import os
+import sys
+
+#===============================================================================
+#
+#
+#===============================================================================
+
+
+ROOT_FOLDER = '/ws/data/desktops'
+def main():
+    folder = folder_name()
+
+    if len(sys.argv) > 1:
+        folder = sys.argv[1]
+
+    folder = os.path.join(ROOT_FOLDER, folder)
+    folder = suffix(folder)
+    os.mkdir(folder)
+    cmd('mv /root/Desktop/* {}'.format(folder))
+    cmd('mkdir /root/Desktop')
+
+
+def suffix(folder):
+	if os.path.exists(folder):
+		return suffix(folder + '-')
+	return folder
+
+def cmd(c):
+    import commands
+    print c
+    commands.getoutput(c)
+
+
+def folder_name():
+    import datetime
+
+    now = datetime.datetime.now()
+    result = now.strftime('%m-%d')
+    return result
+    return '/root/{}'.format(result)
+
+if __name__ == '__main__':
+	main()
+
